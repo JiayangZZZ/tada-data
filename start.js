@@ -1,7 +1,11 @@
 
+'use strict';
+
 const express = require('express');
 const app = express();
-var html = 'html placeholder';
+
+var json = require('./JSON/image_posts.json');
+var html = json;
 
 app.get('/', function (req, res) {
 	res.send(html);
