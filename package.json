@@ -1,0 +1,29 @@
+{
+  "name": "tada-data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "start.js",
+  "dependencies": {
+    "express": "^4.15.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JiayangZZZ/tada-data.git"
+  },
+  "keywords": [
+    "data-visualization",
+    "etc",
+    "cmu",
+    "ea"
+  ],
+  "author": "Jiayang Zhang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JiayangZZZ/tada-data/issues"
+  },
+  "homepage": "https://github.com/JiayangZZZ/tada-data#readme"
+}
