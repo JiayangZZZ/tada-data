@@ -1,16 +1,28 @@
 
-'use strict';
+var express = require('express');
+var app = express();
+var d3 = require('d3');
 
-const express = require('express');
-const app = express();
+var json = require('./JSON/post-labels.json');
 
-var json = require('./JSON/image_posts.json');
-var html = json;
+app.use(express.static(__dirname + '/Views'));
+app.use('/Scripts', express.static('Scripts'));
 
+var startTime = 1505420041
+	, endTime = 1505424001;
+
+var databaseUrl = "http://10.14.41.30:8081/label/";
+
+/*
+ * Route
+ */
 app.get('/', function (req, res) {
-	res.send(html);
+	res.sendFile('index.html');
 })
 
+/*
+ * Express app
+ */
 app.listen(3000, function() {
 	console.log("Tada listening on port 3000...");
 })
