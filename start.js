@@ -7,6 +7,7 @@ var json = require('./JSON/post-labels.json');
 
 app.use(express.static(__dirname + '/Views'));
 app.use('/Scripts', express.static('Scripts'));
+app.use('/JSON', express.static('JSON'));
 
 var startTime = 1505420041
 	, endTime = 1505424001;
