@@ -6,7 +6,9 @@
   "dependencies": {
     "express": "^4.15.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "d3": "^4.10.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
