@@ -4,12 +4,14 @@
  * 
  */
 
-var margin = {top: 10, right: 30, bottom: 30, left: 30},
+var title = "Most popular tags on Tubmler";
+
+var margin = {top: 40, right: 30, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 var x = d3.scale.ordinal()
-	.rangeRoundBands([0, width], .05);
+	.rangeRoundBands([0, 9000], .5);
 
 var y = d3.scale.linear()
 	.range([height, 0]);
@@ -38,13 +40,13 @@ d3.json("./JSON/post-labels.json", function(err, data) {
 		d.score = d.score;
 	})
 
+	addTitle(title);
+
 	x.domain(data.map(function(d) {
 		return d.description;
 	}));
 
-	y.domain([0, d3.max(data, function(d) {
-		return d.score;
-	})]);
+	y.domain([0, data[0].score]);
 
 	svg.append("g")
 		.attr("class", "x axis")
@@ -55,7 +57,7 @@ d3.json("./JSON/post-labels.json", function(err, data) {
 		.style("text-anchor", "end")
 		.attr("dx", "-1em")
 		.attr("dy", "-.55em")
-		.attr("transform", "rotate(-90)");
+		.attr("transform", "rotate(-40)");
 
 	svg.append("g")
 		.attr("class", "y axis")
@@ -78,6 +80,18 @@ d3.json("./JSON/post-labels.json", function(err, data) {
 			return y(d.score);
 		})
 		.attr("height", function(d) {
-			return height;
+			return height-y(d.score);
 		});
 });
+
+/**
+ * Add title
+ *
+ * @title {string}
+ */
+
+function addTitle(title) {
+	d3.select("body").append("h1")
+		.attr("class", "chartTitle")
+		.text(title);
+}
