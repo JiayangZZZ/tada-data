@@ -84,7 +84,7 @@ d3.json("./JSON/post-labels.json", function(err, data) {
 		});
 });
 
-/**
+/*
  * Add title
  *
  * @title {string}
