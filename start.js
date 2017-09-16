@@ -67,3 +67,20 @@ request.post({
 app.listen(3000, function() {
 	console.log("Tada listening on port 3000...");
 })
+
+/*
+ * Parse JSON to Google data rows
+ */
+var parseJSON = function(data) {
+	var rows = [];
+	data.forEach(function(d) {
+		var row = [];
+		row.push(d.description);
+		row.push(d.score);
+		rows.push(row);
+	})
+	return rows;
+}
+
+var dataInRows = parseJSON(dataLabels);
+// console.log(dataInRows);
