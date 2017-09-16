@@ -4,7 +4,8 @@
   "description": "",
   "main": "start.js",
   "dependencies": {
-    "express": "^4.15.4"
+    "express": "^4.15.4",
+    "request": "^2.81.0"
   },
   "devDependencies": {
     "d3": "^4.10.2"
