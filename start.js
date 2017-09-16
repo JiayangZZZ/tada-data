@@ -13,6 +13,8 @@ app.use(express.static(__dirname + '/Views'));
 app.use('/Scripts', express.static('Scripts'));
 app.use('/JSON', express.static('JSON'));
 
+app.set('view engine', 'pug');
+
 var startTime = 1505420041
 	, endTime = 1505424001;
 
