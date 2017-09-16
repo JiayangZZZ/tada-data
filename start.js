@@ -38,6 +38,23 @@ request.post({
 })
 
 /*
+ * Request tag popularity
+ */
+request.post({
+	headers: {'content-type' : 'application/json; charset=utf-8'},
+	url: 'http://10.14.41.30:8081/api/labels/time',
+	json: true,
+	body: {
+		"start_time": 1505258232,
+		"end_time": 1505517432,
+		"duration": 3600,
+		"label": "girl"
+	}
+}, function(err, res, body) {
+	// console.log(body);
+})
+
+/*
  * Express app
  */
 app.listen(3000, function() {
