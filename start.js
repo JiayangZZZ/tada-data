@@ -22,6 +22,10 @@ app.get('/', function (req, res) {
 	res.sendFile('index.html');
 })
 
+app.get('/google', function (req, res) {
+	res.sendFile(__dirname + '/Views/indexGoogle.html');
+})
+
 /*
  * Request trending tags
  */
