@@ -8,33 +8,65 @@ html(leng="en")
 		id= 'raw-data'
 		class= 'hidden-data'
 		data-data= data
+		data-sub= data2
 	)
 		h1.title= message
-		div#chart_div
+		div#chart_main
+		div#chart_sub
 
 	script.
-			var dataRaw = document.getElementById('raw-data').getAttribute('data-data');
-			dataRaw = JSON.parse(dataRaw);
-			document.getElementById('raw-data').removeAttribute('data-data');
+		var dataRaw = document.getElementById('raw-data').getAttribute('data-data');
+		dataRaw = JSON.parse(dataRaw);
+		
 
-			var dataTopThirty = dataRaw.slice(0, 30);
 
-			google.charts.load('current', {'packages':['corechart']});
+		var dataTopThirty = dataRaw.slice(0, 30);
 
-			google.charts.setOnLoadCallback(drawChart);
+		google.charts.load('current', {'packages':['corechart']});
 
-			function drawChart() {
+		google.charts.setOnLoadCallback(drawChart);
 
-				var data = new google.visualization.DataTable();
-				data.addColumn('string', 'description');
-				data.addColumn('number', 'score');
-				data.addRows(dataTopThirty);
+		function drawChart() {
 
-				var options = {'title':'Top Objects in Sims Tumblr Posts',
-				               'width':960,
-				               'height':1000,
-				               'chartArea': {'width': '60%', 'height': '80%'}};
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'description');
+			data.addColumn('number', 'score');
+			data.addRows(dataTopThirty);
 
-				var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-				chart.draw(data, options);
-			}
+			var options = {'title':'Top Objects in Sims Tumblr Posts',
+			               'width':960,
+			               'height':1000,
+			               'chartArea': {'width': '60%', 'height': '80%'}};
+
+			var chart = new google.visualization.BarChart(document.getElementById('chart_main'));
+			chart.draw(data, options);
+		}
+
+	script.
+		var dataRaw2 = document.getElementById('raw-data').getAttribute('data-sub');
+		dataRaw2 = JSON.parse(dataRaw2);
+
+		google.charts.load('current', {packages: ['corechart', 'line']});
+		google.charts.setOnLoadCallback(drawBasic);
+
+		function drawBasic() {
+
+			var data = new google.visualization.DataTable();
+			data.addColumn('number', 'X');
+			data.addColumn('number', 'girl');
+
+			data.addRows(dataRaw2);
+
+			var options = {
+				hAxis: {
+					title: 'Time'
+				},
+				vAxis: {
+					title: 'Popularity'
+				}
+			};
+
+			var chart = new google.visualization.LineChart(document.getElementById('chart_sub'));
+
+			chart.draw(data, options);
+		}

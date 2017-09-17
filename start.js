@@ -33,7 +33,8 @@ app.get('/google', function (req, res) {
 	res.render('index', {
 		title: 'Tada Data',
 		message: 'Tada backend data display',
-		data: dataInRows
+		data: dataInRows,
+		data2: dataInRows2
 	})
 })
 
@@ -87,7 +88,31 @@ var parseJSONArray = function(data) {
 		row.push(d.score);
 		rows.push(row);
 	})
+
+	return rows;
+}
+
+/*
+ * Parse JSON object to Google data rows
+ */
+var parseJSONObject = function(data) {
+	var rows = [];
+	var description = data.description,
+		startTime = data.start_time,
+		endTime = data.end_time,
+		duration = data.duration,
+		scores = data.scores.reverse();
+	var i = 1;
+	scores.forEach(function(s) {
+		var row = [];
+		row.push(i);
+		row.push(s);
+		rows.push(row);
+		i++;
+	})
+
 	return rows;
 }
 
 var dataInRows = parseJSONArray(dataLabels);
+var dataInRows2 = parseJSONObject(dataGirl);
