@@ -12,6 +12,7 @@ var dataGirl = {"description":"girl","start_time":1505258232,"end_time":15052582
 app.use(express.static(__dirname + '/Views'));
 app.use('/Scripts', express.static('Scripts'));
 app.use('/JSON', express.static('JSON'));
+app.use('/Styles', express.static('Styles'));
 
 app.set('view engine', 'pug');
 
@@ -30,7 +31,8 @@ app.get('/', function (req, res) {
 app.get('/google', function (req, res) {
 	res.render('index', {
 		title: 'Tada Data',
-		message: 'Tada backend data display'
+		message: 'Tada backend data display',
+		data: dataInRows
 	})
 })
 
@@ -88,4 +90,3 @@ var parseJSON = function(data) {
 }
 
 var dataInRows = parseJSON(dataLabels);
-// console.log(dataInRows);

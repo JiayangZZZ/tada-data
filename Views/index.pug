@@ -3,31 +3,38 @@ html(leng="en")
 	head
 		title= title
 		script(src='https://www.gstatic.com/charts/loader.js')
-		script.
+		link(rel='stylesheet', href='./Styles/main.css')
+	body(
+		id= 'raw-data'
+		class= 'hidden-data'
+		data-data= data
+	)
+		h1.title= message
+		div#chart_div
+
+	script.
+			var dataRaw = document.getElementById('raw-data').getAttribute('data-data');
+			dataRaw = JSON.parse(dataRaw);
+			document.getElementById('raw-data').removeAttribute('data-data');
+
+			var dataTopThirty = dataRaw.slice(0, 30);
+
 			google.charts.load('current', {'packages':['corechart']});
 
 			google.charts.setOnLoadCallback(drawChart);
 
 			function drawChart() {
 
-			var data = new google.visualization.DataTable();
-			data.addColumn('string', 'description');
-			data.addColumn('number', 'score');
-			data.addRows([
-			  ['girl', 39.94479247882727],
-			  ['fun', 25.216591970551583],
-			  ['screenshot', 21.674045538902284],
-			  ['product', 20.344331504404547],
-			  ['purple', 17.790865692496297]
-			]);
+				var data = new google.visualization.DataTable();
+				data.addColumn('string', 'description');
+				data.addColumn('number', 'score');
+				data.addRows(dataTopThirty);
 
-			var options = {'title':'How Much Pizza I Ate Last Night',
-			               'width':600,
-			               'height':300};
+				var options = {'title':'Top Objects in Sims Tumblr Posts',
+				               'width':960,
+				               'height':1000,
+				               'chartArea': {'width': '60%', 'height': '80%'}};
 
-			var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-			chart.draw(data, options);
+				var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+				chart.draw(data, options);
 			}
-	body
-		h1= message
-		div#chart_div
