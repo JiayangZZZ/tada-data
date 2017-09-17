@@ -92,6 +92,6 @@ d3.json("./JSON/post-labels.json", function(err, data) {
 
 function addTitle(title) {
 	d3.select("body").append("h1")
-		.attr("class", "chartTitle")
+		.attr("class", "title")
 		.text(title);
 }
