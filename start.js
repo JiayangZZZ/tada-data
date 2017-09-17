@@ -28,7 +28,10 @@ app.get('/', function (req, res) {
 })
 
 app.get('/google', function (req, res) {
-	res.sendFile(__dirname + '/Views/indexGoogle.html');
+	res.render('index', {
+		title: 'Tada Data',
+		message: 'Tada backend data display'
+	})
 })
 
 /*
