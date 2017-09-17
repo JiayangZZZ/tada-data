@@ -1,7 +1,6 @@
 
 var express = require('express');
 var app = express();
-var d3 = require('d3');
 var request = require('request');
 
 var json = require('./JSON/post-labels.json');
