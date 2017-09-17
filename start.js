@@ -71,9 +71,9 @@ request.post({
 /*
  * Express app
  */
-app.listen(3000, function() {
-	console.log("Tada listening on port 3000...");
-})
+app.listen(process.env.PORT || 3000, function(){
+  console.log("Tada server listening on port %d in %s mode", this.address().port, app.settings.env);
+});
 
 /*
  * Parse JSON to Google data rows
