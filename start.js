@@ -29,10 +29,10 @@ app.get('/', function (req, res) {
 	res.sendFile('index.html');
 })
 
-app.get('/google', function (req, res) {
+app.get('/data', function (req, res) {
 	res.render('index', {
 		title: 'Tada Data',
-		message: 'Tada backend data display',
+		message: 'Tada Active Database Analysis',
 		data: dataInRows,
 		data2: dataInRows2
 	})
