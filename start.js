@@ -77,9 +77,9 @@ app.listen(process.env.PORT || 3000, function(){
 });
 
 /*
- * Parse JSON to Google data rows
+ * Parse JSON array to Google data rows
  */
-var parseJSON = function(data) {
+var parseJSONArray = function(data) {
 	var rows = [];
 	data.forEach(function(d) {
 		var row = [];
@@ -90,4 +90,4 @@ var parseJSON = function(data) {
 	return rows;
 }
 
-var dataInRows = parseJSON(dataLabels);
+var dataInRows = parseJSONArray(dataLabels);
