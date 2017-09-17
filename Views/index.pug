@@ -17,8 +17,7 @@ html(leng="en")
 	script.
 		var dataRaw = document.getElementById('raw-data').getAttribute('data-data');
 		dataRaw = JSON.parse(dataRaw);
-		
-
+		document.getElementById('raw-data').removeAttribute('data-data');
 
 		var dataTopThirty = dataRaw.slice(0, 30);
 
@@ -45,6 +44,7 @@ html(leng="en")
 	script.
 		var dataRaw2 = document.getElementById('raw-data').getAttribute('data-sub');
 		dataRaw2 = JSON.parse(dataRaw2);
+		document.getElementById('raw-data').removeAttribute('data-sub');
 
 		google.charts.load('current', {packages: ['corechart', 'line']});
 		google.charts.setOnLoadCallback(drawBasic);
