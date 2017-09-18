@@ -35,13 +35,15 @@ var data = new EventEmitter();
 
 app.get('/data', function (req, res) {
 
+	var endTime = new Date().getTime();
+
 	request.post({
 		headers: {'content-type' : 'application/json; charset=utf-8'},
 		url: 'http://10.14.41.30:8081/api/labels/top',
 		json: true,
 		body: {
 			"start_time": 1505258232,
-			"end_time": 1505517432
+			"end_time": endTime
 		}
 	}, function(err, r, body) {
 		data.labels = parseJSONArray(body);
@@ -92,7 +94,7 @@ request.post({
  * Express app
  */
 app.listen(process.env.PORT || 3000, function(){
-  console.log("Tada server listening on port %d in %s mode", this.address().port, app.settings.env);
+	console.log("Tada server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
 
 /*
