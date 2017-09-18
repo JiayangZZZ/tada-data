@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var request = require('request');
 var path = require('path');
+var EventEmitter = require('events').EventEmitter;
 
 var json = require('./JSON/post-labels.json');
 
@@ -29,28 +30,45 @@ app.get('/', function (req, res) {
 	res.sendFile('index.html');
 })
 
-app.get('/data', function (req, res) {
-	res.render('index', {
-		title: 'Tada Data',
-		message: 'Tada Active Database Analysis',
-		data: dataInRows,
-		data2: dataInRows2
-	})
-})
 
-/*
- * Request trending tags
- */
-request.post({
-	headers: {'content-type' : 'application/json; charset=utf-8'},
-	url: 'http://10.14.41.30:8081/api/labels/top',
-	json: true,
-	body: {
-		"start_time": 1505258232,
-		"end_time": 1505517432
-	}
-}, function(err, res, body) {
-	// console.log(body);
+var data = new EventEmitter();
+
+app.get('/data', function (req, res) {
+
+	request.post({
+		headers: {'content-type' : 'application/json; charset=utf-8'},
+		url: 'http://10.14.41.30:8081/api/labels/top',
+		json: true,
+		body: {
+			"start_time": 1505258232,
+			"end_time": 1505517432
+		}
+	}, function(err, r, body) {
+		data.labels = parseJSONArray(body);
+		data.emit('update');
+
+		request.post({
+			headers: {'content-type' : 'application/json; charset=utf-8'},
+			url: 'http://10.14.41.30:8081/api/labels/time',
+			json: true,
+			body: {
+				"start_time": 1505258232,
+				"end_time": 1505517432,
+				"duration": 3600,
+				"label": "tree"
+			}
+		}, function(err, r, body) {
+			data.label = parseJSONObject(body);
+			data.emit('update');
+
+			res.render('index', {
+				title: 'Tada Data',
+				message: 'Tada Active Database Analysis',
+				data: data.labels,
+				data2: data.label
+			})
+		})
+	})
 })
 
 /*
@@ -64,7 +82,7 @@ request.post({
 		"start_time": 1505258232,
 		"end_time": 1505517432,
 		"duration": 3600,
-		"label": "girl"
+		"label": "text"
 	}
 }, function(err, res, body) {
 	// console.log(body);
@@ -113,6 +131,3 @@ var parseJSONObject = function(data) {
 
 	return rows;
 }
-
-var dataInRows = parseJSONArray(dataLabels);
-var dataInRows2 = parseJSONObject(dataGirl);
