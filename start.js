@@ -36,6 +36,7 @@ var data = new EventEmitter();
 app.get('/data', function (req, res) {
 
 	var endTime = new Date().getTime();
+	endTime = Math.floor(endTime/1000);
 
 	request.post({
 		headers: {'content-type' : 'application/json; charset=utf-8'},
@@ -55,7 +56,7 @@ app.get('/data', function (req, res) {
 			json: true,
 			body: {
 				"start_time": 1505258232,
-				"end_time": 1505517432,
+				"end_time": endTime,
 				"duration": 3600,
 				"label": "tree"
 			}
