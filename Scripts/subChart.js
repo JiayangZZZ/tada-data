@@ -1,8 +1,14 @@
 
 var dataRaw2 = document.getElementById('raw-data').getAttribute('data-sub');
+var dataRaw3 = document.getElementById('raw-data').getAttribute('data-sub2');
 dataRaw2 = JSON.parse(dataRaw2);
-document.getElementById('raw-data').removeAttribute('data-sub');
+dataRaw3 = JSON.parse(dataRaw3);
 
+for(var i = 0; i < dataRaw2.length; i++) {
+	dataRaw2[i].push(dataRaw3[i][1]);
+}
+
+// console.log(dataRaw2)
 google.charts.load('current', {packages: ['corechart', 'line']});
 google.charts.setOnLoadCallback(drawBasic);
 
@@ -10,7 +16,8 @@ function drawBasic() {
 
 	var data = new google.visualization.DataTable();
 	data.addColumn('number', 'X');
-	data.addColumn('number', 'girl');
+	data.addColumn('number', 'room');
+	data.addColumn('number', 'grass');
 
 	data.addRows(dataRaw2);
 
@@ -18,7 +25,7 @@ function drawBasic() {
 		'title': 'Girl: Popularity Over Time',
 		'width':960,
 		hAxis: {
-			title: 'Time'
+			title: 'Time (hours)'
 		},
 		vAxis: {
 			title: 'Popularity'
