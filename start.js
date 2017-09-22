@@ -43,7 +43,7 @@ app.get('/data', function (req, res) {
 		url: 'http://10.14.41.30:8081/api/labels/top',
 		json: true,
 		body: {
-			"start_time": 1505258232,
+			"start_time": endTime-3600*6,
 			"end_time": endTime
 		}
 	}, function(err, r, body) {
