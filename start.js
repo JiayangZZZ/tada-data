@@ -47,26 +47,32 @@ app.get('/data', function (req, res) {
 			"end_time": endTime
 		}
 	}, function(err, r, body) {
-		data.labels = parseJSONArray(body);
-		data.emit('update');
+		if(err) {
+			console.log(err)
+		}
+		else {
+			data.labels = parseJSONArray(body);
+			data.emit('update');
 
-		request.post({
-			headers: {'content-type' : 'application/json; charset=utf-8'},
-			url: 'http://10.14.41.30:8081/api/labels/time',
-			json: true,
-			body: {
-				"start_time": 1505258232+3600*85,
-				"end_time": endTime,
-				"duration": 3600,
-				"label": "Star Wars"
-			}
-		}, function(err, r, body) {
-			res.render('index', {
-				title: 'Tada Data',
-				message: 'Tada Active Database Analysis',
-				data: data.labels
+			request.post({
+				headers: {'content-type' : 'application/json; charset=utf-8'},
+				url: 'http://10.14.41.30:8081/api/labels/time',
+				json: true,
+				body: {
+					"start_time": 1505258232+3600*85,
+					"end_time": endTime,
+					"duration": 3600,
+					"label": "Star Wars"
+				}
+			}, function(err, r, body) {
+				res.render('index', {
+					title: 'Tada Data',
+					message: 'Tada Active Database Analysis',
+					data: data.labels
+				})
 			})
-		})
+		}
+		
 	})
 })
 
