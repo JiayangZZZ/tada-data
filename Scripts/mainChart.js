@@ -58,7 +58,7 @@ function drawChart() {
 		}
 
 		xhr.send(JSON.stringify({
-			"start_time": 1505258232,
+			"start_time": endTime - 3600 *6,
 			"end_time": endTime,
 			"duration": 3600,
 			"label": description
