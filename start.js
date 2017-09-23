@@ -38,6 +38,9 @@ app.get('/data', function (req, res) {
 	var endTime = new Date().getTime();
 	endTime = Math.floor(endTime/1000);
 
+	var primaryJSON,
+		secondaryJSON;
+
 	request.post({
 		headers: {'content-type' : 'application/json; charset=utf-8'},
 		url: 'http://10.14.41.30:8081/api/labels/top',
@@ -51,26 +54,47 @@ app.get('/data', function (req, res) {
 			console.log(err)
 		}
 		else {
-			data.labels = parseJSONArray(body);
+			data.labels = parsePrimaryJSON(body.slice(0, 10));
+
 			data.emit('update');
 
-			request.post({
-				headers: {'content-type' : 'application/json; charset=utf-8'},
-				url: 'http://10.14.41.30:8081/api/labels/time',
-				json: true,
-				body: {
-					"start_time": 1505258232+3600*85,
-					"end_time": endTime,
-					"duration": 3600,
-					"label": "Star Wars"
-				}
-			}, function(err, r, body) {
-				res.render('index', {
-					title: 'Tada Data',
-					message: 'Tada Active Database Analysis',
-					data: data.labels
+			data.labels.forEach(function(e) {
+				console.log(e[0]);
+				request.post({
+					headers: {'content-type' : 'application/json; charset=utf-8'},
+					url: 'http://10.14.41.30:8081/api/labels/time',
+					json: true,
+					body: {
+						"start_time": endTime-3600,
+						"end_time": endTime,
+						"duration": 600,
+						"label": e[0]
+					}
+				}, function(err, r, body) {
+					if(err) {
+						console.log(err);
+					}
+					console.log(body.scores);
+					console.log(body.images[0]);
 				})
-			})
+			});
+			// request.post({
+			// 	headers: {'content-type' : 'application/json; charset=utf-8'},
+			// 	url: 'http://10.14.41.30:8081/api/labels/time',
+			// 	json: true,
+			// 	body: {
+			// 		"start_time": endTime-3600,
+			// 		"end_time": endTime,
+			// 		"duration": 600,
+			// 		"label": "girl"
+			// 	}
+			// }, function(err, r, body) {
+				// res.render('index', {
+				// 	title: 'Tada Data',
+				// 	message: 'Tada Active Database Analysis',
+				// 	data: data.labels
+				// })
+			// })
 		}
 		
 	})
@@ -100,10 +124,26 @@ app.listen(process.env.PORT || 8081, function(){
 	console.log("Tada server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
 
+// /*
+//  * Parse JSON array to Google data rows
+//  */
+// var parseJSONArray = function(data) {
+// 	var rows = [];
+// 	data.forEach(function(d) {
+// 		var row = [];
+// 		row.push(d.description);
+// 		row.push(d.score);
+// 		rows.push(row);
+// 	})
+
+// 	return rows;
+// }
+
 /*
- * Parse JSON array to Google data rows
+ * Parse primary JSON
  */
-var parseJSONArray = function(data) {
+var parsePrimaryJSON = function(data) {
+
 	var rows = [];
 	data.forEach(function(d) {
 		var row = [];
@@ -114,7 +154,6 @@ var parseJSONArray = function(data) {
 
 	return rows;
 }
-
 /*
  * Parse JSON object to Google data rows
  */
@@ -136,3 +175,11 @@ var parseJSONObject = function(data) {
 
 	return rows;
 }
+
+/**
+ * Parse secondary data
+ * @data Array
+ */
+ var parseSecondaryData = function(data) {
+
+ }
