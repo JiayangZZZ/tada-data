@@ -18,17 +18,24 @@ function drawChart() {
 	var dataTable = new google.visualization.DataTable();
 	dataTable.addColumn('string', 'description');
 	dataTable.addColumn('number', 'score');
-	
+	dataTable.addColumn({
+		'type' : 'string',
+		'role' : 'tooltip',
+		'p' : {'html' : true}
+	});
+
 	dataTable.addRows(primaryData);
 
 	var options = {
-		'title' : 'Top objects in Sims Tumblr posts',
-		'width' : 960,
-		'height' : 1000,
-		'chartArea' : {
+		title : 'Top objects in Sims Tumblr posts',
+		width : 960,
+		height : 1000,
+		chartArea : {
 			'width' : '60%',
 			'height' : '80%'
-		}
+		},
+		focusTarget: 'category',
+		tooltip : {isHtml : true}
 	};
 
 	var chart = new google.visualization.BarChart(document.getElementById('chart_main'));

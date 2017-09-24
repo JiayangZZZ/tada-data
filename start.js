@@ -54,7 +54,7 @@ app.get('/data', function (req, res) {
 			console.log(err)
 		}
 		else {
-			primaryJSON = parsePrimaryJSON(body.slice(0, 10));
+			primaryJSON = body.slice(0, 10);
 			var requestCount = 10;
 
 			primaryJSON.forEach(function(e) {
@@ -66,7 +66,7 @@ app.get('/data', function (req, res) {
 						"start_time": endTime-3600*4,
 						"end_time": endTime,
 						"duration": 600,
-						"label": e[0]
+						"label": e.description
 					}
 				}, function(err, r, body) {
 					if(err) {
@@ -81,6 +81,9 @@ app.get('/data', function (req, res) {
 					requestCount --;
 
 					if(requestCount <= 0) {
+						
+						primaryJSON = attachImage(primaryJSON, secondaryJSON);
+						primaryJSON = parsePrimaryJSON(primaryJSON);
 						res.render('index', {
 							title: 'Tada data',
 							message: 'Tada Active Database Analysis',
@@ -143,6 +146,7 @@ var parsePrimaryJSON = function(data) {
 		var row = [];
 		row.push(d.description);
 		row.push(d.score);
+		row.push(createCustomTooltip(d.description, d.image));
 		rows.push(row);
 	})
 
@@ -187,4 +191,27 @@ var parseSecondaryData = function(scores) {
 	})
 
 	return rows;
+}
+
+/**
+ * Attach image to primary chart data
+ *
+ */
+var attachImage = function(receiver, sender) {
+	receiver.forEach(function(receiverObj) {
+		var senderObj = sender.filter(function(obj) {
+			return obj.description == receiverObj.description;
+		})[0];
+		receiverObj.image = senderObj.image;
+	})
+
+	return receiver;
+}
+
+/**
+ * Create custom tooltip for Google charts
+ *
+ */
+function createCustomTooltip(description, imgSrc) {
+	return '<div style="padding:5px 5px 5px 5px;">' + '<img src="' + imgSrc + '" style="width:200px;height:auto"></div>';
 }
