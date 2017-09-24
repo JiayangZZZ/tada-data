@@ -39,7 +39,7 @@ app.get('/data', function (req, res) {
 	endTime = Math.floor(endTime/1000);
 
 	var primaryJSON,
-		secondaryJSON;
+		secondaryJSON = [];
 
 	request.post({
 		headers: {'content-type' : 'application/json; charset=utf-8'},
@@ -54,18 +54,16 @@ app.get('/data', function (req, res) {
 			console.log(err)
 		}
 		else {
-			data.labels = parsePrimaryJSON(body.slice(0, 10));
+			primaryJSON = parsePrimaryJSON(body.slice(0, 10));
+			var requestCount = 10;
 
-			data.emit('update');
-
-			data.labels.forEach(function(e) {
-				console.log(e[0]);
+			primaryJSON.forEach(function(e) {
 				request.post({
 					headers: {'content-type' : 'application/json; charset=utf-8'},
 					url: 'http://10.14.41.30:8081/api/labels/time',
 					json: true,
 					body: {
-						"start_time": endTime-3600,
+						"start_time": endTime-3600*4,
 						"end_time": endTime,
 						"duration": 600,
 						"label": e[0]
@@ -74,29 +72,27 @@ app.get('/data', function (req, res) {
 					if(err) {
 						console.log(err);
 					}
-					console.log(body.scores);
-					console.log(body.images[0]);
+					console.log(body)
+					var object = {
+						'description' : body.description,
+						'scores' : parseSecondaryData(body.scores),
+						'image' : body.images[0]
+					}
+					console.log(object)
+					secondaryJSON.push(object);
+					requestCount --;
+
+					if(requestCount <= 0) {
+						res.render('index', {
+							title: 'Tada data',
+							message: 'Tada Active Database Analysis',
+							data: primaryJSON,
+							data2: secondaryJSON
+						})
+					}
 				})
 			});
-			// request.post({
-			// 	headers: {'content-type' : 'application/json; charset=utf-8'},
-			// 	url: 'http://10.14.41.30:8081/api/labels/time',
-			// 	json: true,
-			// 	body: {
-			// 		"start_time": endTime-3600,
-			// 		"end_time": endTime,
-			// 		"duration": 600,
-			// 		"label": "girl"
-			// 	}
-			// }, function(err, r, body) {
-				// res.render('index', {
-				// 	title: 'Tada Data',
-				// 	message: 'Tada Active Database Analysis',
-				// 	data: data.labels
-				// })
-			// })
 		}
-		
 	})
 })
 
@@ -180,6 +176,17 @@ var parseJSONObject = function(data) {
  * Parse secondary data
  * @data Array
  */
- var parseSecondaryData = function(data) {
+var parseSecondaryData = function(scores) {
+	var rows = [];
+	var i = 1;
+	scores = scores.reverse();
+	scores.forEach(function(s) {
+		var row = [];
+		row.push(i);
+		row.push(s);
+		rows.push(row);
+		i++
+	})
 
- }
+	return rows;
+}
