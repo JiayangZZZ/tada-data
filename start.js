@@ -72,13 +72,11 @@ app.get('/data', function (req, res) {
 					if(err) {
 						console.log(err);
 					}
-					console.log(body)
 					var object = {
 						'description' : body.description,
 						'scores' : parseSecondaryData(body.scores),
 						'image' : body.images[0]
 					}
-					console.log(object)
 					secondaryJSON.push(object);
 					requestCount --;
 
