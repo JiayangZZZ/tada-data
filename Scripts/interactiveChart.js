@@ -29,7 +29,7 @@ function drawChart() {
 	var options = {
 		title : 'Top objects in Sims Tumblr posts',
 		width : 960,
-		height : 1000,
+		height : 800,
 		chartArea : {
 			'width' : '60%',
 			'height' : '80%'
