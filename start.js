@@ -74,7 +74,8 @@ app.get('/data', function (req, res) {
 					}
 					var object = {
 						'description' : body.description,
-						'scores' : parseSecondaryData(body.scores),
+						// 'scores' : parseSecondaryData(body.scores),
+						'scores' : body.scores,
 						'image' : body.images[0]
 					}
 					secondaryJSON.push(object);
@@ -83,12 +84,12 @@ app.get('/data', function (req, res) {
 					if(requestCount <= 0) {
 						
 						primaryJSON = attachImage(primaryJSON, secondaryJSON);
-						primaryJSON = parsePrimaryJSON(primaryJSON);
+						
 						res.render('index', {
 							title: 'Tada data',
 							message: 'Tada Active Database Analysis',
-							data: primaryJSON,
-							data2: secondaryJSON
+							data: parsePrimaryJSON(primaryJSON),
+							data2: constructRows(secondaryJSON)
 						})
 					}
 				})
@@ -214,4 +215,22 @@ var attachImage = function(receiver, sender) {
  */
 function createCustomTooltip(description, imgSrc) {
 	return '<div style="padding:5px 5px 5px 5px;">' + '<img src="' + imgSrc + '" style="width:200px;height:auto"></div>';
+}
+
+/**
+ * Construct sub chart data
+ */
+function constructRows(array) {
+	var rows = [];
+	for(var i = 0; i < array.length; i++) {
+		var row = [];
+
+		row.push(i);
+		array.forEach(function(e) {
+			row.push(e.scores[i])
+		});
+		rows.push(row);
+	}
+	
+	return rows;
 }
