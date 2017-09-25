@@ -74,7 +74,6 @@ app.get('/data', function (req, res) {
 					}
 					var object = {
 						'description' : body.description,
-						// 'scores' : parseSecondaryData(body.scores),
 						'scores' : body.scores,
 						'image' : body.images[0]
 					}
@@ -99,43 +98,11 @@ app.get('/data', function (req, res) {
 })
 
 /*
- * Request tag popularity
- */
-request.post({
-	headers: {'content-type' : 'application/json; charset=utf-8'},
-	url: 'http://10.14.41.30:8081/api/labels/time',
-	json: true,
-	body: {
-		"start_time": 1505258232,
-		"end_time": 1505517432,
-		"duration": 3600,
-		"label": "text"
-	}
-}, function(err, res, body) {
-	// console.log(body);
-})
-
-/*
  * Express app
  */
 app.listen(process.env.PORT || 8081, function(){
 	console.log("Tada server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
-
-// /*
-//  * Parse JSON array to Google data rows
-//  */
-// var parseJSONArray = function(data) {
-// 	var rows = [];
-// 	data.forEach(function(d) {
-// 		var row = [];
-// 		row.push(d.description);
-// 		row.push(d.score);
-// 		rows.push(row);
-// 	})
-
-// 	return rows;
-// }
 
 /*
  * Parse primary JSON
@@ -149,27 +116,6 @@ var parsePrimaryJSON = function(data) {
 		row.push(d.score);
 		row.push(createCustomTooltip(d.description, d.image));
 		rows.push(row);
-	})
-
-	return rows;
-}
-/*
- * Parse JSON object to Google data rows
- */
-var parseJSONObject = function(data) {
-	var rows = [];
-	var description = data.description,
-		startTime = data.start_time,
-		endTime = data.end_time,
-		duration = data.duration,
-		scores = data.scores.reverse();
-	var i = 1;
-	scores.forEach(function(s) {
-		var row = [];
-		row.push(i);
-		row.push(s);
-		rows.push(row);
-		i++;
 	})
 
 	return rows;
