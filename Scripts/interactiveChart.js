@@ -55,7 +55,7 @@ function drawSecondaryChart() {
 
 	var options = {
 		title : 'Top objects in Sims Tumblr posts',
-		width : 900,
+		width : 1200,
 		height: 500,
 		hAxis: {
 			title: 'Time (hours)'
