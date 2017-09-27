@@ -39,7 +39,8 @@ app.get('/data', function (req, res) {
 	endTime = Math.floor(endTime/1000);
 
 	var primaryJSON,
-		secondaryJSON = [];
+		secondaryJSON = [],
+		secondaryChartLegend = [];
 
 	request.post({
 		headers: {'content-type' : 'application/json; charset=utf-8'},
@@ -54,8 +55,8 @@ app.get('/data', function (req, res) {
 			console.log(err)
 		}
 		else {
-			primaryJSON = body.slice(0, 10);
-			var requestCount = 10;
+			primaryJSON = body.slice(0, 20);
+			var requestCount = 20;
 
 			primaryJSON.forEach(function(e) {
 				request.post({
@@ -72,6 +73,9 @@ app.get('/data', function (req, res) {
 					if(err) {
 						console.log(err);
 					}
+
+					secondaryChartLegend.push(body.description);
+
 					var object = {
 						'description' : body.description,
 						'scores' : body.scores,
@@ -91,7 +95,8 @@ app.get('/data', function (req, res) {
 							title: 'Tada data',
 							message: 'Tada Active Database Analysis',
 							data: parsePrimaryJSON(primaryJSON),
-							data2: constructRows(secondaryScores)
+							data2: constructRows(secondaryScores),
+							lineChartLengend: secondaryChartLegend
 						})
 					}
 				})

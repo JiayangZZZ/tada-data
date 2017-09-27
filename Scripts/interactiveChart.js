@@ -13,6 +13,9 @@ document.getElementById('raw-data').removeAttribute('data-data');
 var secondaryData = JSON.parse(document.getElementById('raw-data').getAttribute('data-sub'));
 document.getElementById('raw-data').removeAttribute('data-data');
 
+var lineChartLegend = JSON.parse(document.getElementById('raw-data').getAttribute('data-legend'));
+document.getElementById('raw-data').removeAttribute('data-legend');
+
 //Draw chart
 function drawChart() {
 	var dataTable = new google.visualization.DataTable();
@@ -47,8 +50,8 @@ function drawChart() {
 function drawSecondaryChart() {
 	var dataTable = new google.visualization.DataTable();
 	dataTable.addColumn('number', 'time');
-	for(var i = 0; i < primaryData.length; i++) {
-		dataTable.addColumn('number', primaryData[i][0]);
+	for(var i = 0; i < lineChartLegend.length; i++) {
+		dataTable.addColumn('number', lineChartLegend[i]);
 	}
 
 	dataTable.addRows(secondaryData);
