@@ -46,7 +46,7 @@ app.get('/data', function (req, res) {
 		url: 'http://10.14.41.30:8081/api/labels/top',
 		json: true,
 		body: {
-			"start_time": endTime-3600*6,
+			"start_time": endTime-3600*100,
 			"end_time": endTime
 		}
 	}, function(err, r, body) {
@@ -63,9 +63,9 @@ app.get('/data', function (req, res) {
 					url: 'http://10.14.41.30:8081/api/labels/time',
 					json: true,
 					body: {
-						"start_time": endTime-3600*4,
+						"start_time": endTime-3600*24,
 						"end_time": endTime,
-						"duration": 600,
+						"duration": 3600,
 						"label": e.description
 					}
 				}, function(err, r, body) {
@@ -83,12 +83,15 @@ app.get('/data', function (req, res) {
 					if(requestCount <= 0) {
 						
 						primaryJSON = attachImage(primaryJSON, secondaryJSON);
+						var secondaryScores = secondaryJSON.map(function(obj) {
+							return obj.scores.reverse();
+						});
 						
 						res.render('index', {
 							title: 'Tada data',
 							message: 'Tada Active Database Analysis',
 							data: parsePrimaryJSON(primaryJSON),
-							data2: constructRows(secondaryJSON)
+							data2: constructRows(secondaryScores)
 						})
 					}
 				})
@@ -167,16 +170,25 @@ function createCustomTooltip(description, imgSrc) {
  * Construct sub chart data
  */
 function constructRows(array) {
-	var rows = [];
-	for(var i = 0; i < array.length; i++) {
-		var row = [];
+	var newArray = array[0].map(function(col, i) {
 
-		row.push(i);
-		array.forEach(function(e) {
-			row.push(e.scores[i])
-		});
-		rows.push(row);
-	}
+		var ROW = array.map(function(row) {
+			return row[i];
+		})
+		ROW.unshift(i);
+		return ROW;
+	})
+	return newArray;
+	// var rows = [];
+	// for(var i = 0; i < array.length; i++) {
+	// 	var row = [];
+
+	// 	row.push(i);
+	// 	array.forEach(function(e) {
+	// 		row.push(e.scores[i])
+	// 	});
+	// 	rows.push(row);
+	// }
 	
-	return rows;
+	// return rows;
 }
