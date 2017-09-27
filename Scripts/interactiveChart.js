@@ -31,14 +31,19 @@ function drawChart() {
 
 	var options = {
 		title : 'Top objects in Sims Tumblr posts',
-		width : 960,
+		width : 1200,
 		height : 800,
 		chartArea : {
 			'width' : '60%',
 			'height' : '80%'
 		},
 		focusTarget: 'category',
-		tooltip : {isHtml : true}
+		tooltip : {isHtml : true},
+		animation: {
+			'startup' : true,
+			duration: 1000,
+			easing: 'out'
+		}
 	};
 
 	var chart = new google.visualization.BarChart(document.getElementById('chart_main'));
