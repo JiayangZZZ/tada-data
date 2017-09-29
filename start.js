@@ -44,7 +44,7 @@ app.get('/data', function (req, res) {
 
 	request.post({
 		headers: {'content-type' : 'application/json; charset=utf-8'},
-		url: 'http://10.14.41.30:8081/api/labels/top',
+		url: 'http://10.14.41.20:8081/api/labels/top',
 		json: true,
 		body: {
 			"start_time": endTime-3600*100,
@@ -61,7 +61,7 @@ app.get('/data', function (req, res) {
 			primaryJSON.forEach(function(e) {
 				request.post({
 					headers: {'content-type' : 'application/json; charset=utf-8'},
-					url: 'http://10.14.41.30:8081/api/labels/time',
+					url: 'http://10.14.41.20:8081/api/labels/time',
 					json: true,
 					body: {
 						"start_time": endTime-3600*24,
